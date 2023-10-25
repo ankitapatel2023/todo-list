@@ -23,7 +23,7 @@ $(document).ready(function(){
 		
 		taskList.sortable();
 
-		taskList.on('click', 'li .delete', function(){
+		taskList.on('click', 'li delete', function(){
 				$(this).parent().remove();
 
 				localStorage.setItem("tasks", taskList.html());
