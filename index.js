@@ -1,5 +1,5 @@
 
-$(document).ready(function(){
+let todolistData = $(document).ready(function(){
 		let inputData = $("#new-task");
 		let taskList = $("#task-list");
 
@@ -13,7 +13,6 @@ $(document).ready(function(){
 				}
 
 				let taskItem = $(`<li class="task-data">`+ tasklistText +`<i class="bi bi-trash-fill delete"></i></li>`);
-
 				taskList.append(taskItem);
 				inputData.val(" ");
 
@@ -25,8 +24,13 @@ $(document).ready(function(){
 
 		taskList.on('click', 'li .delete', function(){
 				$(this).parent().remove();
-
 				localStorage.setItem("tasks", taskList.html());
 		});
 });
 
+
+// localStorage.setItem("tasks",JSON.stringify(todolistData));
+
+// let users = JSON.parse(localStorage.getItem("tasks"))
+
+// console.log
