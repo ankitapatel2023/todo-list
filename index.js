@@ -1,36 +1,47 @@
 
-let todolistData = $(document).ready(function(){
-		let inputData = $("#new-task");
-		let taskList = $("#task-list");
+$(document).ready(function(){
+	let taskList = $("#task-list");
+	loadTasks();
 
-		if(localStorage.getItem("tasks")){
-				taskList.html(localStorage.getItem("tasks"));
+	function loadTasks() {
+		if (localStorage.getItem("tasks")) {
+			taskList.html(localStorage.getItem("tasks"));
+			makeTasksSortable();
 		}
-		function addTask(){
-				let tasklistText = inputData.val();
-				if(tasklistText.trim() === ''){
-						return;
-				}
+	}
 
-				let taskItem = $(`<li class="task-data">`+ tasklistText +`<i class="bi bi-trash-fill delete"></i></li>`);
-				taskList.append(taskItem);
-				inputData.val(" ");
+	function saveTasks() {
+		localStorage.setItem("tasks", taskList.html());
+	}
 
-				localStorage.setItem("tasks", taskList.html());
-		}
-		$("#add-task-button").on("click", addTask);
-		
-		taskList.sortable();
-
-		taskList.on('click', 'li .delete', function(){
-				$(this).parent().remove();
-				localStorage.setItem("tasks", taskList.html());
+	function makeTasksSortable() {
+		taskList.sortable({
+			update: function(event, ui) {
+				saveTasks();
+			}
 		});
+	}
+
+	function addTask() {
+		let inputData = $("#new-task");
+		let tasklistText = inputData.val();
+		if (tasklistText.trim() === '') {
+			return;
+		}
+
+		let taskItem = $(`<li class="task-data"><span>${tasklistText}</span><i class="bi bi-trash-fill delete"></i></i></li>`);
+		taskList.append(taskItem);
+		inputData.val("");
+
+		makeTasksSortable();
+		saveTasks();
+	}
+
+	$("#add-task-button").on("click", addTask);
+
+	taskList.on('click', 'li .delete', function() {
+		$(this).parent().remove();
+		saveTasks();
+	});
 });
 
-
-// localStorage.setItem("tasks",JSON.stringify(todolistData));
-
-// let users = JSON.parse(localStorage.getItem("tasks"))
-
-// console.log
